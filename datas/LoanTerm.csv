@@ -1,3 +1,4 @@
+[
 term: 1, amortization: 3883.75, interest: 0, status: 1
 term: 2, amortization: 3883.75, interest: 0, status: 1
 term: 3, amortization: 3883.75, interest: 0, status: 1
@@ -22,3 +23,4 @@ term: 21, amortization: 3883.75, interest: 0, status: 0
 term: 22, amortization: 3883.75, interest: 0, status: 0
 term: 23, amortization: 3883.75, interest: 0, status: 0
 term: 24, amortization: 3883.75, interest: 0, status: 0
+]
