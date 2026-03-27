@@ -73,7 +73,7 @@
     $(document).ready(function () {
 
 		readTextFile("../datas/LoanTerm.txt");
-		loadTableData(items1);
+		loadTableData(items2);
 		
         new DataTable('#bootstrap-data-table-export', {
             fixedHeader: true,
@@ -110,28 +110,15 @@
 	}
 	
 	function readTextFile(file) {
-			/*
-		  var rawFile = new XMLHttpRequest();
-		  rawFile.open("GET", file, false);
-		  rawFile.onreadystatechange = function () {
-			if(rawFile.readyState === 4)  {
-			  if(rawFile.status === 200 || rawFile.status == 0) {
-				var allText = rawFile.responseText;
-				console.log(allText);
-			   }
-			}
-		  }
-		  rawFile.send(null);
-		  */
-		 
+	
 		fetch(file)
 		  .then((res) => res.text())
-		  .then((text) => {
-			// Do something with "text"
-			console.log(text);
+		  .then((data) => {
+			// Do something with "data"
+			item2 = data;
+			console.log(data);
 		   })
 		  .catch((e) => console.error(e));
-		 
 	}
 </script>
 </body>
