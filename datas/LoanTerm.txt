@@ -1,26 +1,24 @@
-'[
-term: 1, amortization: 3883.75, interest: 0, status: 1
-term: 2, amortization: 3883.75, interest: 0, status: 1
-term: 3, amortization: 3883.75, interest: 0, status: 1
-term: 4, amortization: 3883.75, interest: 0, status: 0
-term: 5, amortization: 3883.75, interest: 0, status: 0
-term: 6, amortization: 3883.75, interest: 0, status: 0
-term: 7, amortization: 3883.75, interest: 0, status: 0
-term: 8, amortization: 3883.75, interest: 0, status: 0
-term: 9, amortization: 3883.75, interest: 0, status: 0
-term: 10, amortization: 3883.75, interest: 0, status: 0
-term: 11, amortization: 3883.75, interest: 0, status: 0
-term: 12, amortization: 3883.75, interest: 0, status: 0
-term: 13, amortization: 3883.75, interest: 0, status: 0
-term: 14, amortization: 3883.75, interest: 0, status: 0
-term: 15, amortization: 3883.75, interest: 0, status: 0
-term: 16, amortization: 3883.75, interest: 0, status: 0
-term: 17, amortization: 3883.75, interest: 0, status: 0
-term: 18, amortization: 3883.75, interest: 0, status: 0
-term: 19, amortization: 3883.75, interest: 0, status: 0
-term: 20, amortization: 3883.75, interest: 0, status: 0
-term: 21, amortization: 3883.75, interest: 0, status: 0
-term: 22, amortization: 3883.75, interest: 0, status: 0
-term: 23, amortization: 3883.75, interest: 0, status: 0
-term: 24, amortization: 3883.75, interest: 0, status: 0
-]'
+{term=1,amortization=3883.75,interest=0,status=1},
+{term=2,amortization=3883.75,interest=0,status=1},
+{term=3,amortization=3883.75,interest=0,status=1},
+{term=4,amortization=3883.75,interest=0,status=0},
+{term=5,amortization=3883.75,interest=0,status=0},
+{term=6,amortization=3883.75,interest=0,status=0},
+{term=7,amortization=3883.75,interest=0,status=0},
+{term=8,amortization=3883.75,interest=0,status=0},
+{term=9,amortization=3883.75,interest=0,status=0},
+{term=10,amortization=3883.75,interest=0,status=0},
+{term=11,amortization=3883.75,interest=0,status=0},
+{term=12,amortization=3883.75,interest=0,status=0},
+{term=13,amortization=3883.75,interest=0,status=0},
+{term=14,amortization=3883.75,interest=0,status=0},
+{term=15,amortization=3883.75,interest=0,status=0},
+{term=16,amortization=3883.75,interest=0,status=0},
+{term=17,amortization=3883.75,interest=0,status=0},
+{term=18,amortization=3883.75,interest=0,status=0},
+{term=19,amortization=3883.75,interest=0,status=0},
+{term=20,amortization=3883.75,interest=0,status=0},
+{term=21,amortization=3883.75,interest=0,status=0},
+{term=22,amortization=3883.75,interest=0,status=0},
+{term=23,amortization=3883.75,interest=0,status=0},
+{term=24,amortization=3883.75,interest=0,status=0}
