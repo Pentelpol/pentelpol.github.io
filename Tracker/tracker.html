@@ -116,7 +116,8 @@
 		  .then((data) => {
 			// Do something with "data"
 			console.log(data);
-			item2 = JSON.parse(data);
+			var asString = JSON.stringify(data);
+			item2 = JSON.parse(asString);
 			//item2 = data;
 		   })
 		  .catch((e) => console.error(e));
