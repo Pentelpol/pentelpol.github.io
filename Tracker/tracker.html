@@ -72,7 +72,7 @@
 	
     $(document).ready(function () {
 
-		readTextFile("../datas/LoanTerm.csv");
+		readTextFile("../datas/LoanTerm.txt");
 		loadTableData(item2);
 		
         new DataTable('#bootstrap-data-table-export', {
@@ -115,8 +115,8 @@
 		  .then((res) => res.text())
 		  .then((data) => {
 			// Do something with "data"
-			//item2 = JSON.parse(data);
-			item2 = data;
+			item2 = JSON.parse(data);
+			//item2 = data;
 			console.log(data);
 		   })
 		  .catch((e) => console.error(e));
