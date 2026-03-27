@@ -115,7 +115,7 @@
 		  .then((res) => res.text())
 		  .then((data) => {
 			// Do something with "data"
-			item2 = data;
+			item2 = json.parse(data);
 			console.log(data);
 		   })
 		  .catch((e) => console.error(e));
