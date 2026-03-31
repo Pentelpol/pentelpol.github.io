@@ -1,0 +1,128 @@
+{
+	"loan" : { 
+		"loan_1" : {
+			"id" : 123,
+			"amount" : 93210,
+			"montly_payment" : 3883.75,
+			"term" : 24,
+			"total_payment" : 10000
+		},
+		"loan_2" : {
+			"id" : 234,
+			"amount" : 93210,
+			"montly_payment" : 3883.75,
+			"term" : 6,
+			"total_payment" : 10000
+		}
+	},
+	"term_list" : {
+		"term_list_1": {
+			"loan_id" : 1,
+			"term": 1,
+			"amortization": 3883.75,
+			"interest": 0,
+			"status": 2
+		},
+		"term_list_2": {
+			"loan_id" : 1,
+			"term": 2,
+			"amortization": 3883.75,
+			"interest": 0,
+			"status": 2
+		},
+		"term_list_3": {
+			"loan_id" : 1,
+			"term": 3,
+			"amortization": 3883.75,
+			"interest": 0,
+			"status": 1
+		},
+		"term_list_4": {
+			"loan_id" : 1,
+			"term": 4,
+			"amortization": 3883.75,
+			"interest": 0,
+			"status": 0
+		},
+		"term_list_5": {
+			"loan_id" : 1,
+			"term": 5,
+			"amortization": 3883.75,
+			"interest": 0,
+			"status": 0
+		},
+		"term_list_6": {
+			"loan_id" : 1,
+			"term": 6,
+			"amortization": 3883.75,
+			"interest": 0,
+			"status": 0
+		},
+		"term_list_7": {
+			"loan_id" : 2,
+			"term": 1,
+			"amortization": 3883.75,
+			"interest": 0,
+			"status": 2
+		},
+		"term_list_8": {
+			"loan_id" : 2,
+			"term": 2,
+			"amortization": 3883.75,
+			"interest": 0,
+			"status": 2
+		},
+		"term_list_9": {
+			"loan_id" : 2,
+			"term": 3,
+			"amortization": 3883.75,
+			"interest": 0,
+			"status": 1
+		},
+		"term_list_10": {
+			"loan_id" : 2,
+			"term": 4,
+			"amortization": 3883.75,
+			"interest": 0,
+			"status": 0
+		},
+		"term_list_11": {
+			"loan_id" : 2,
+			"term": 5,
+			"amortization": 3883.75,
+			"interest": 0,
+			"status": 0
+		},
+		"term_list_12": {
+			"loan_id" : 2,
+			"term": 6,
+			"amortization": 3883.75,
+			"interest": 0,
+			"status": 0
+		}
+	},
+	"payment_list" : {
+		"payment_list_1": {
+			"payment_id": 1,
+			"loan_id" : 1,
+			"amount": 3883.75,
+			"status": 1
+		},
+		"payment_list_2": {
+			"payment_id": 1,
+			"loan_id" : 2,
+			"amount": 3883.75,
+			"status": 1
+		}
+	},
+	"payment_status" : {
+		"pending" : 0,
+		"received" : 1,
+		"void" : 2
+	},
+	"term_status" : {
+		"pending" : 0,
+		"parially_paid" : 1,
+		"fully_paid" : 2
+	}
+}

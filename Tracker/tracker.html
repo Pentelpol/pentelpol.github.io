@@ -80,48 +80,144 @@
 <!--
 	</div>
 -->
-	
+<script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-database-compat.js"></script>
+<!--
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+-->
 <script type="text/javascript">
-	const items1 = [
-		{ term: 1, amortization: 3883.75, interest: 0.00, status: true },
-		{ term: 2, amortization: 3883.75, interest: 0.00, status: true },
-		{ term: 3, amortization: 3883.75, interest: 0.00, status: true },
-		{ term: 4, amortization: 3883.75, interest: 0.00, status: false },
-		{ term: 5, amortization: 3883.75, interest: 0.00, status: false },
-	];
+	// Import the functions you need from the SDKs you need
+	//import { initializeApp } from "firebase/app";
+	//import firebase from "firebase/app";
+	//import "firebase/compat/database";
 
-	var item2 = [
-		{term:1,amortization:3883.75,interest:0,status:1},
-		{term:2,amortization:3883.75,interest:0,status:1},
-		{term:3,amortization:3883.75,interest:0,status:1},
-		{term:4,amortization:3883.75,interest:0,status:0},
-		{term:5,amortization:3883.75,interest:0,status:0},
-		{term:6,amortization:3883.75,interest:0,status:0},
-		{term:7,amortization:3883.75,interest:0,status:0},
-		{term:8,amortization:3883.75,interest:0,status:0},
-		{term:9,amortization:3883.75,interest:0,status:0},
-		{term:10,amortization:3883.75,interest:0,status:0},
-		{term:11,amortization:3883.75,interest:0,status:0},
-		{term:12,amortization:3883.75,interest:0,status:0},
-		{term:13,amortization:3883.75,interest:0,status:0},
-		{term:14,amortization:3883.75,interest:0,status:0},
-		{term:15,amortization:3883.75,interest:0,status:0},
-		{term:16,amortization:3883.75,interest:0,status:0},
-		{term:17,amortization:3883.75,interest:0,status:0},
-		{term:18,amortization:3883.75,interest:0,status:0},
-		{term:19,amortization:3883.75,interest:0,status:0},
-		{term:20,amortization:3883.75,interest:0,status:0},
-		{term:21,amortization:3883.75,interest:0,status:0},
-		{term:22,amortization:3883.75,interest:0,status:0},
-		{term:23,amortization:3883.75,interest:0,status:0},
-		{term:24,amortization:3883.75,interest:0,status:0}
-	];
+	// Your web app's Firebase configuration
+	const firebaseConfig = {
+	  apiKey: "AIzaSyANuUGYkZVhsIwVQLY6b7BN6l65zMCqfN8",
+	  authDomain: "payment-f9c12.firebaseapp.com",
+	  databaseURL: "https://payment-f9c12-default-rtdb.firebaseio.com",
+	  projectId: "payment-f9c12",
+	  storageBucket: "payment-f9c12.firebasestorage.app",
+	  messagingSenderId: "662241993046",
+	  appId: "1:662241993046:web:4ea559346ca8a4e4e836f7"
+	};
+	
+	var term_status;
+	
+	// Initialize Firebase
+	const app = firebase.initializeApp(firebaseConfig);
+	// Initialize Realtime Database and get a reference to the service
+	const database = app.database();
+	console.log(app);
+	console.log(database);
+	getTermStatusiaFirebaseAPI();
 	
     $(document).ready(function () {
-
-		//readTextFile("../datas/LoanTerm.txt");
-		loadTableData(item2);
+	
+		getLoanTermviaFirebaseAPI();
 		
+    });
+
+	function loadTableData(items) {
+		console.log(items);
+		var arrayObject;
+		const table = document.getElementById("tableBody");
+		
+		for(var i in items)
+		{
+			var item = items[i];
+
+			let row = table.insertRow();
+			let term = row.insertCell(0);
+			term.innerHTML = item.term;
+			let amortization = row.insertCell(1);
+			amortization.innerHTML = item.amortization;
+			let interest = row.insertCell(2);
+			interest.innerHTML = item.interest;
+			let status = row.insertCell(3);
+			status.innerHTML = readTermStatus(item.status);
+		}
+	}
+	/*
+	function readTextFile(file) {
+	
+		fetch(file)
+		  .then((res) => res.text())
+		  .then((data) => {
+			// Do something with "data"
+			console.log(data);
+			//var asString = JSON.stringify(item3);
+			//console.log(asString);
+			item2 = JSON.parse(data);
+			//console.log(item3);
+			console.log(item2);
+			loadTableData(item2);
+			//item2 = data;
+		   })
+		  .catch((e) => console.error(e));
+	}
+	*/
+	function readTermStatus(status)
+	{
+		var ret = "Pending";
+		
+		(status == term_status.fully_paid) ? ret = "Fully Paid" : (status == term_status.parially_paid) ? ret = "Parially Paid" : ret = "Pending";
+		return ret;
+	}
+	
+	function getLoanTermviaFirebaseAPI(){
+		// Create a request variable and assign a new XMLHttpRequest object to it.
+		var request = new XMLHttpRequest()
+
+		// Open a new connection, using the GET request on the URL endpoint
+		request.open('GET', 'https://payment-f9c12-default-rtdb.firebaseio.com/term_list.json?auth=vAU2WgoNg1lMZDcIYMfzMjIWlZ723pYpWxVvj9Hb&orderBy="loan_id"&equalTo=2', true)
+
+		request.onload = function() {
+		 // Begin accessing JSON data here
+		  var data = JSON.parse(this.response)
+
+		  if (request.status >= 200 && request.status < 400) {
+			console.log("getLoanTerm data");
+			console.log(data);
+			loadTableData(data);
+			initialiseDataTable();
+		  } else {
+			console.log('error')
+		  }
+		}
+
+		// Send request
+		request.send()
+	}
+	function getTermStatusiaFirebaseAPI(){
+		// Create a request variable and assign a new XMLHttpRequest object to it.
+		var request = new XMLHttpRequest()
+
+		// Open a new connection, using the GET request on the URL endpoint
+		request.open('GET', 'https://payment-f9c12-default-rtdb.firebaseio.com/term_status.json?auth=vAU2WgoNg1lMZDcIYMfzMjIWlZ723pYpWxVvj9Hb', true)
+
+		request.onload = function() {
+		 // Begin accessing JSON data here
+		  var data = JSON.parse(this.response)
+
+		  if (request.status >= 200 && request.status < 400) {
+			console.log("getTermStatusiaFirebaseAPI data");
+			console.log(data);
+			term_status = data;
+		  } else {
+			console.log('error')
+		  }
+		}
+
+		// Send request
+		request.send()
+	}
+	
+	function initialiseDataTable()
+	{
         new DataTable('#bootstrap-data-table-export', {
             fixedHeader: true,
             lengthChange: true,
@@ -139,35 +235,6 @@
                 }
             }
         });
-    });
-
-	function loadTableData(items) {
-		const table = document.getElementById("tableBody");
-		items.forEach( item => {
-		  let row = table.insertRow();
-		  let term = row.insertCell(0);
-		  term.innerHTML = item.term;
-		  let amortization = row.insertCell(1);
-		  amortization.innerHTML = item.amortization;
-		  let interest = row.insertCell(2);
-		  interest.innerHTML = item.interest;
-		  let status = row.insertCell(3);
-		  status.innerHTML = item.status;
-		});
-	}
-	
-	function readTextFile(file) {
-	
-		fetch(file)
-		  .then((res) => res.text())
-		  .then((data) => {
-			// Do something with "data"
-			console.log(data);
-			//var asString = JSON.stringify(data);
-			item2 = JSON.parse(data);
-			//item2 = data;
-		   })
-		  .catch((e) => console.error(e));
 	}
 </script>
 </body>

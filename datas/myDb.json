@@ -1,0 +1,76 @@
+{
+  "term": {
+    "term1": {
+      "term": 1,
+      "amortization": 3883.75,
+      "interest": 0,
+      "status": true
+    },
+    "term2": {
+      "term": 2,
+      "amortization": 3883.75,
+      "interest": 0,
+      "status": true
+    },
+    "term3": {
+      "term": 3,
+      "amortization": 3883.75,
+      "interest": 0,
+      "status": false
+    },
+    "term4": {
+      "term": 4,
+      "amortization": 3883.75,
+      "interest": 0,
+      "status": false
+    },
+    "term5": {
+      "term": 5,
+      "amortization": 3883.75,
+      "interest": 0,
+      "status": false
+    },
+    "term6": {
+      "term": 6,
+      "amortization": 3883.75,
+      "interest": 0,
+      "status": false
+    },
+    "term7": {
+      "term": 7,
+      "amortization": 3883.75,
+      "interest": 0,
+      "status": false
+    },
+    "term8": {
+      "term": 8,
+      "amortization": 3883.75,
+      "interest": 0,
+      "status": false
+    },
+    "term9": {
+      "term": 9,
+      "amortization": 3883.75,
+      "interest": 0,
+      "status": false
+    },
+    "term10": {
+      "term": 10,
+      "amortization": 3883.75,
+      "interest": 0,
+      "status": false
+    },
+    "term11": {
+      "term": 11,
+      "amortization": 3883.75,
+      "interest": 0,
+      "status": false
+    },
+    "term12": {
+      "term": 12,
+      "amortization": 3883.75,
+      "interest": 0,
+      "status": false
+    }
+  }
+}
