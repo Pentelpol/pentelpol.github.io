@@ -2,17 +2,23 @@
 	"loan" : { 
 		"loan_1" : {
 			"id" : 123,
+			"name": "POWER MAC SM PAMPANGA",
+			"reference_number" : "8283520",
 			"amount" : 93210,
 			"montly_payment" : 3883.75,
 			"term" : 24,
-			"total_payment" : 10000
+			"total_payment" : 10000,
+			"loan_status" : 1
 		},
 		"loan_2" : {
 			"id" : 234,
+			"name": "POWER MAC SM PAMPANGA",
+			"reference_number" : "8283520",
 			"amount" : 93210,
 			"montly_payment" : 3883.75,
 			"term" : 6,
-			"total_payment" : 10000
+			"total_payment" : 10000,
+			"loan_status" : 2
 		}
 	},
 	"term_list" : {
@@ -124,5 +130,10 @@
 		"pending" : 0,
 		"parially_paid" : 1,
 		"fully_paid" : 2
+	},
+	"loan_status" : {
+		"pending" : 0,
+		"ongoing" : 1,
+		"paid" : 2
 	}
 }
