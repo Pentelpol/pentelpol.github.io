@@ -30,7 +30,7 @@
 		*/
 		// Loading Partial Page
 		$('#logo').load('Shared/logo.html');
-		$('#navbar').load('Shared/navbar.html');
+		//$('#navbar').load('Shared/navbar.html');
 		$('#floatingbutton').load('Shared/floatingbutton.html');
 		
 		var now = new Date();
