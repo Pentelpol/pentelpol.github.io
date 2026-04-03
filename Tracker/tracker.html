@@ -121,7 +121,7 @@
 		});
 		console.log("params");
 		console.log(params.id);
-		getLoanTermviaFirebaseAPI();
+		getLoanTermviaFirebaseAPI(params.id);
 		
     });
 
@@ -172,12 +172,14 @@
 		return ret;
 	}
 	
-	function getLoanTermviaFirebaseAPI(){
+	function getLoanTermviaFirebaseAPI(id){
 		// Create a request variable and assign a new XMLHttpRequest object to it.
 		var request = new XMLHttpRequest()
+		var url = 'https://payment-f9c12-default-rtdb.firebaseio.com/term_list.json?auth=vAU2WgoNg1lMZDcIYMfzMjIWlZ723pYpWxVvj9Hb&orderBy="loan_id"&equalTo=' + id
 
+		console.log(url);
 		// Open a new connection, using the GET request on the URL endpoint
-		request.open('GET', 'https://payment-f9c12-default-rtdb.firebaseio.com/term_list.json?auth=vAU2WgoNg1lMZDcIYMfzMjIWlZ723pYpWxVvj9Hb&orderBy="loan_id"&equalTo=2', true)
+		request.open('GET', url, true)
 
 		request.onload = function() {
 		 // Begin accessing JSON data here
