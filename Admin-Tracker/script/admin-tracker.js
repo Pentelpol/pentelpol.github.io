@@ -68,7 +68,7 @@
 		{
 			var item = items[i];
 			html += `
-				<tr onclick="window.location='../../Tracker/tracker?id=${item.loan_id}';" style="cursor:pointer;">
+				<tr onclick="window.location='loan?id=${i}';" style="cursor:pointer;">
 					<td>${item.name}</td>
 					<td>${item.reference_number}</td>
 					<td>${item.amount}</td>
