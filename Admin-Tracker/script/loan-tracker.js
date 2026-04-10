@@ -129,6 +129,18 @@ import config from './config.json' with { type: 'json' };
 			}
 		});
 		
+		document.querySelectorAll('a.toggle-vis').forEach((el) => {
+			el.addEventListener('click', function (e) {
+				e.preventDefault();
+				const table = document.getElementById('bootstrap-data-table-export');
+				let columnIdx = e.target.getAttribute('data-column');
+				let column = table.column(columnIdx);
+		 
+				// Toggle the visibility
+				column.visible(!column.visible());
+			});
+		});
+		
     });
 	
 	function loadTermData(items) {
@@ -142,12 +154,13 @@ import config from './config.json' with { type: 'json' };
 			var item = items[i];
 			html += `
 				<tr>
-					<td class="w-10">
+					<td>
 						<a class="nav-link dropdown-toggle"
 						href="#"
 						data-bs-toggle="dropdown"
 						aria-expanded="false">${item.term}</a>
 						<ul class="dropdown-menu">
+							<li><a class="dropdown-item btn-edit" onclick="viewTermDetails('${i}');"><i <i class="fa fa-eye"></i> Details</a></li>
 							<li><a class="dropdown-item btn-edit" onclick="editTermDetails('${i}');"><i class="fa fa-pencil"></i> Edit</a></li>
 							<li><a class="dropdown-item btn-delete" onclick="deleteTermDetails('${i}');"><i class="fa fa-trash"></i> Delete</a></li>
 						</ul>
@@ -175,15 +188,15 @@ import config from './config.json' with { type: 'json' };
 			html += `
 				<tr>
 					<td>
-						<div class="form-row">
-							<div class="col">
-								&#8369;${item.amount}
-							</div>
-							<div class="col">
-							  <button class="btn-edit" onclick="editPaymentDetails('${i}');"><i class="fa fa-pencil"></i></button>
-							  <button class="btn-delete" onclick="deletePaymentDetails('${i}');"><i class="fa fa-trash"></i></button>
-							</div>
-						</div>
+						<a class="nav-link dropdown-toggle"
+						href="#"
+						data-bs-toggle="dropdown"
+						aria-expanded="false">&#8369;${item.amount}</a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item btn-edit" onclick="viewPaymentDetails('${i}');"><i <i class="fa fa-eye"></i> Details</a></li>
+							<li><a class="dropdown-item btn-edit" onclick="editPaymentDetails('${i}');"><i class="fa fa-pencil"></i> Edit</a></li>
+							<li><a class="dropdown-item btn-delete" onclick="deletePaymentDetails('${i}');"><i class="fa fa-trash"></i> Delete</a></li>
+						</ul>
 					</td>
 					<td>${new Date(item.payment_date).toLocaleString()}</td>
 					<td>${item.status}</td>
@@ -235,7 +248,7 @@ import config from './config.json' with { type: 'json' };
 	
 	function initialiseDataTable()
 	{
-        new DataTable('#bootstrap-data-table-export', {
+        var term_table = new DataTable('#bootstrap-data-table-export', {
             fixedHeader: true,
             lengthChange: true,
             pageLength: 50,
@@ -256,7 +269,7 @@ import config from './config.json' with { type: 'json' };
 	
 	function initialiseDataPaymentTable()
 	{
-        new DataTable('#bootstrap-data-payment-table-export', {
+        var payment_table = new DataTable('#bootstrap-data-payment-table-export', {
             fixedHeader: true,
             lengthChange: true,
             pageLength: 50,
@@ -337,10 +350,23 @@ import config from './config.json' with { type: 'json' };
 		
 		console.log("editTermDetails ID:" + term_id);
 	}
+		
+	function viewPaymentDetails(id)
+	{ 
+		populatePaymentDetailsForm(id);
+		
+		const modal = document.getElementById("ViewDetailsModal");
+		// Create a new instance and show it
+		const myModal = new bootstrap.Modal(modal);
+		myModal.show();
+		
+		console.log("EditAccountDetails ID:" + id);
+	}
 	
 	// Add this line to expose it globally
 	window.deleteTermDetails = deleteTermDetails;
 	window.editTermDetails = editTermDetails;
+	window.viewPaymentDetails = viewPaymentDetails;
 	
 	export function populateEditPaymentForm(payment_id)
 	{
@@ -369,3 +395,52 @@ import config from './config.json' with { type: 'json' };
 		document.getElementById('term_id').value = term_id;
 		
 	}
+	
+	export function populatePaymentDetailsForm(id)
+	{
+		//var data = window.paymentObject[payment_id];
+		const data = JSON.parse(sessionStorage.getItem('Payments'));
+		
+		//var duedate = new Date(data[id].due_date);
+		
+		var imgurl = data[id].imageurl;
+		if (imgurl) {
+		  // https://drive.google.com/thumbnail?id=16sYGi6nPJhAfIFl14FNRv2JMTT25uDRp
+		  // https://drive.google.com/file/d/16sYGi6nPJhAfIFl14FNRv2JMTT25uDRp/view?usp=drive_link
+		  var baseUrl = 'https://drive.google.com/thumbnail?id=';
+		  let indexStart = imgurl.indexOf("/d/");
+		  let indexEnd = imgurl.indexOf("/view?");
+		  imgurl = imgurl.substring(indexStart + 3, indexEnd);
+		  imgurl = baseUrl + imgurl;
+		}
+		
+		// Generate new items HTML
+		var html = '';
+		html += `
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 col-lg-4">
+					<!-- Profile Card -->
+					<div class="card shadow border-0">
+					
+						<img src="${imgurl}" alt="payment evidence" class="card-img-top">
+						<div class="card-body">
+							<h5 class="card-title text-primary">&#8369; ${data[id].amount}</h5>
+							<p class="card-text text-muted">${data[id].status}</p>
+							
+							<!-- Details List -->
+							<ul class="list-group list-group-flush mb-3">
+								<li class="list-group-item"><strong>Payment Date:</strong> ${new Date(data[id].payment_date).toLocaleString()}</li>
+								<li class="list-group-item"><strong>Remarks:</strong> ${data[id].remarks}</li>
+							</ul>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		`;
+		
+		document.getElementById('ViewDetailsBody').innerHTML = html;
+	}
+	
