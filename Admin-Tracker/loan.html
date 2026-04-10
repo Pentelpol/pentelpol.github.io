@@ -16,6 +16,8 @@
     />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
     <script src="../assets/js/color-modes.js"></script>
     <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet" />
     <meta name="theme-color" content="#712cf9" />
@@ -27,6 +29,7 @@
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 	<script src="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-2.1.0/b-3.1.0/b-html5-3.1.0/b-print-3.1.0/date-1.5.2/fh-4.0.1/kt-2.12.1/sp-2.3.1/datatables.min.js"></script>
+	
 	
     <style>
       .bd-placeholder-img {
@@ -150,7 +153,7 @@
 	  width="48"
 	  height="38"
 	/>
-	<a class="navbar-brand" href="#">Admin Office</a>
+	<a class="navbar-brand" href="./">Admin Office</a>
 	<button
 	  class="navbar-toggler p-0 border-0"
 	  type="button"
@@ -164,9 +167,11 @@
 	  id="navbarsExampleDefault"
 	>
 	  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+		<!--
 		<li class="nav-item">
 		  <a class="nav-link" href="./">Dashboard</a>
 		</li>
+		-->
 		<li class="nav-item">
 			<button type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#AddNewLoan">Add New Loan</button>
 		</li>
@@ -231,19 +236,46 @@
 		
 		<!-- Lists -->
 		<div class="my-3 p-3 bg-body rounded shadow-sm">
-			<h6 class="border-bottom pb-2 mb-0">Loan Details</h6>
+			<div class="container border-bottom pb-2 mb-0">
+			  <div class="row row-cols-2">
+				<div class="col-sm">
+					<h6 class="">Account Details</h6>
+				</div>
+				<div class="col-sm">
+					<a type="button" class="nav-link float-end" data-bs-toggle="modal" data-bs-target="#EditAccountDetails"><i class="fa fa-pencil"></i> Edit</a>
+				</div>
+			  </div>
+			</div>
+			<!--
+			<h6 class="border-bottom pb-2 mb-0">Account Details</h6>
+			-->
 			<!-- Details -->
 			<div id="loanDetails"></div>
+						
+		</div>
+		<!-- Terms -->
+		<div class="my-3 p-3 bg-body rounded shadow-sm">
+			<div class="container border-bottom pb-2 mb-0">
+			  <div class="row row-cols-2">
+				<div class="col-sm">
+					<h6 class="">Terms</h6>
+				</div>
+				<div class="col-sm">
+					<a type="button" class="nav-link float-end" data-bs-toggle="modal" data-bs-target="#AddNewTerm"><i class="fa fa-plus"></i> Add Term</a>
+				</div>
+			  </div>
+			</div>
 			
 			<!-- Term Table Display -->
 			<div style="d-flex pt-3">
 					<table id="bootstrap-data-table-export" class="table table-striped table-bordered">
 						<thead>
 							<tr>
-								<th>Installment</th>
-								<th>Principal</th>
-								<th>Interest</th>
+								<th>Name</th>
+								<th>Due Date</th>
+								<th>Amortization</th>
 								<th>Status</th>
+								<th>Remarks</th>
 							</tr>
 						</thead>
 						<tbody id="termtableBody">
@@ -252,22 +284,51 @@
 			</div>
 			
 		</div>
+		<!-- Payments -->
+		<div class="my-3 p-3 bg-body rounded shadow-sm">
+			<div class="container border-bottom pb-2 mb-0">
+			  <div class="row row-cols-2">
+				<div class="col-sm">
+					<h6 class="">Payment</h6>
+				</div>
+				<div class="col-sm">
+					<a type="button" class="nav-link float-end" data-bs-toggle="modal" data-bs-target="#AddNewPayment"><i class="fa fa-plus"></i> Add Payment</a>
+				</div>
+			  </div>
+			</div>
+			
+			<!-- Payment Table Display -->
+			<div style="d-flex pt-3">
+					<table id="bootstrap-data-payment-table-export" class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th>Amount</th>
+								<th>Date</th>
+								<th>Status</th>
+								<th>Remarks</th>
+							</tr>
+						</thead>
+						<tbody id="paymenttableBody">
+						</tbody>
+					</table>
+			</div>
+			
+		</div>
     </main>
 	<!-- @* Modal *@
-    @* Add New Loan *@ -->
-	
-    <div class="modal fade" id="AddNewLoan" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+    @* Edit Account Details*@ -->
+    <div class="modal fade" id="EditAccountDetails" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="AddLoanModalLabel"><i class="fa fa-edit"></i>Add New Loan</h5>
+                        <h5 class="modal-title" id="AddLoanModalLabel"><i class="fa fa-edit"></i>Edit Account</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-						<form name="myForm" id="myForm" method="post">
+						<form name="EditAccountDetailsForm" id="EditAccountDetailsForm" method="post">
 							<div class="form-row">
 								<div class="col">
 									<label for="name">Name</label>
@@ -310,14 +371,262 @@
             </div>
         </div>
     </div>
+    <!-- @* Add New Term *@ -->
+    <div class="modal fade" id="AddNewTerm" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="AddLoanModalLabel"><i class="fa fa-edit"></i>Add New Term</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+						<form name="FormAddNewTerm" id="FormAddNewTerm" method="POST">
+							<div class="form-row">
+								<div class="col">
+									<label for="name">Term Name</label>
+									<input type="text" class="form-control" name="term" id="term" placeholder="Term 1" required>
+								</div>
+								<div class="col">
+									<label for="reference_number">Ammortization</label>
+									<input type="text" class="form-control" name="amortization" id="amortization" placeholder="3000" required>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="col">
+									<label for="amount">Due Date</label>
+									<input type="datetime-local" class="form-control" name="due_date" id="due_date" value="">
+								</div>
+								<div class="col">
+									<label for="amount">Term Status</label>
+									<input type="text" class="form-control" name="status" id="status" value="0">
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="col">
+									<label for="amount">Remarks</label>
+									<input type="text" class="form-control" name="remarks" id="remarks">
+								</div>
+							</div>
+							<div hidden>
+								<!-- <input type="text" class="form-control" name="account_id" id="account_id" value=""> -->
+							</div>
+							<br />
+							<div class="modal-footer">
+								<button type="submit" id="FormAddNewTermmodalBtnSubmit" class="btn btn-primary">Save</button>
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							</div>
+						</form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- @* Add New Payment *@ -->
+    <div class="modal fade" id="AddNewPayment" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="AddLoanModalLabel"><i class="fa fa-edit"></i>Add New Payment</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+						<form name="FormAddNewPayment" id="FormAddNewPayment" method="POST">
+							<div class="form-row">
+								<div class="col">
+									<label for="name">Amount</label>
+									<input type="text" class="form-control" name="amount" id="term" placeholder="10000" required>
+								</div>
+								<div class="col">
+									<label for="amount">Payment Status</label>
+									<input type="text" class="form-control" name="status" id="status" value="0">
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="col">
+									<label for="amount">Remarks</label>
+									<input type="text" class="form-control" name="remarks" id="remarks">
+								</div>
+							</div>
+							<div hidden>
+								<input type="datetime-local" class="form-control" name="payment_date" id="payment_date_id" value="">
+							</div>
+							<br />
+							<div class="modal-footer">
+								<button type="submit" id="FormAddNewTermmodalBtnSubmit" class="btn btn-primary">Save</button>
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							</div>
+						</form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<!-- @* Edit Term *@ -->
+    <div class="modal fade" id="EditTerm" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="EditTermModalLabel"><i class="fa fa-edit"></i>Edit New Term</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+						<form name="FormEditTerm" id="FormEditTerm" method="POST">
+							<div class="form-row">
+								<div class="col">
+									<label for="name">Term Name</label>
+									<input type="text" class="form-control" name="term" id="edittermnameid" placeholder="Term 1" required>
+								</div>
+								<div class="col">
+									<label for="reference_number">Ammortization</label>
+									<input type="text" class="form-control" name="amortization" id="editamortizationid" placeholder="3000" required>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="col">
+									<label for="amount">Due Date</label>
+									<input type="datetime-local" class="form-control" name="due_date" id="editdue_dateid" value="">
+								</div>
+								<div class="col">
+									<label for="amount">Term Status</label>
+									<input type="text" class="form-control" name="status" id="edittermstatusid" value="0">
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="col">
+									<label for="amount">Remarks</label>
+									<input type="text" class="form-control" name="remarks" id="edittermremarksid">
+								</div>
+							</div>
+							<div hidden>
+								<input type="text" class="form-control" name="term_id" id="term_id" value="">
+							</div>
+							<br />
+							<div class="modal-footer">
+								<button type="submit" id="FormAddNewTermmodalBtnSubmit" class="btn btn-primary">Save</button>
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							</div>
+						</form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	<!-- @* Edit Payment *@ -->
+    <div class="modal fade" id="EditPayment" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="AddLoanModalLabel"><i class="fa fa-edit"></i>Edit Payment</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+						<form name="FormEditPayment" id="FormEditPayment" method="POST">
+							<div class="form-row">
+								<div class="col">
+									<label for="name">Amount</label>
+									<input type="text" class="form-control" name="amount" id="editpaymentamountid" placeholder="10000" required>
+								</div>
+								<div class="col">
+									<label for="amount">Payment Status</label>
+									<input type="text" class="form-control" name="status" id="editpaymentstatusid" value="0">
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="col">
+									<label for="amount">Remarks</label>
+									<input type="text" class="form-control" name="remarks" id="editpaymentremarks">
+								</div>
+								<div class="col">
+									<label for="amount">Payment Date</label>
+								<input type="datetime-local" class="form-control" name="payment_date" id="editpaymentdateid" value="">
+								</div>
+							</div>
+							<div hidden>
+								<input type="text" class="form-control" name="payment_id" id="payment_id">
+							</div>
+							<br />
+							<div class="modal-footer">
+								<button type="submit" id="FormFormEditPaymentmodalBtnSubmit" class="btn btn-primary">Save</button>
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							</div>
+						</form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 	
     <!-- @* Modal END *@ -->
+	<script type="module">
+		//import { PI, add, subtract } from './script/math.js';
+		import { deletePaymentViaId, updatePaymentViaAccountID } from './script/FirebaseAPICall.js';
+		import { populateEditPaymentForm } from './script/loan-tracker.js';
+
+		//document.getElementById("demo").innerHTML = PI + "<br>" + add(3,2) + "<br>" + subtract(3,2);
+		
+		
+		function editPaymentDetails(payment_id)
+		{ 
+			// Initialize the form with received data
+			//populateForm(data);
+			/*
+			document.getElementById('editpaymentamountid').value = data.firstName;
+			document.getElementById('editpaymentstatusid').value = data.firstName;
+			document.getElementById('editpaymentremarks').value = data.firstName;
+			document.getElementById('editpaymentdateid').value = data.firstName;
+			*/
+			//document.getElementById('payment_id').value = payment_id;
+			populateEditPaymentForm(payment_id);
+			
+			const modal = document.getElementById("EditPayment");
+			// Create a new instance and show it
+			const myModal = new bootstrap.Modal(modal);
+			myModal.show();
+			
+			console.log("editPaymentDetails ID:" + payment_id);
+		}
+		
+		function deletePaymentDetails(payment_id)
+		{ 
+			if (confirm("Are you sure you want to delete this payment" + payment_id + "?"))
+			{
+		
+				deletePaymentViaId(payment_id).then((message) => {
+					console.log(message);
+					location.reload();
+				},(error) => {
+					console.log(error);
+				});
+				
+				console.log("deletePaymentDetails ID: " + payment_id );
+			}
+		}
+		
+		// Add this line to expose it globally
+		window.deletePaymentDetails = deletePaymentDetails;
+		window.editPaymentDetails = editPaymentDetails;
+	</script>
 	
     <script
       src="../assets/dist/js/bootstrap.bundle.min.js"
       class="astro-vvvwv3sm"
     ></script>
+	
     <script src="offcanvas-navbar.js" class="astro-vvvwv3sm"></script>
     <script type="module" src="script/loan-tracker.js"></script>
+	
   </body>
 </html>

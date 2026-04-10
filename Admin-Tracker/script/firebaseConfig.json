@@ -1,0 +1,9 @@
+{
+  "apiKey": "AIzaSyANuUGYkZVhsIwVQLY6b7BN6l65zMCqfN8",
+  "authDomain": "payment-f9c12.firebaseapp.com",
+  "databaseURL": "https://payment-f9c12-default-rtdb.firebaseio.com",
+  "projectId": "payment-f9c12",
+  "storageBucket": "payment-f9c12.firebasestorage.app",
+  "messagingSenderId": "662241993046",
+  "appId": "1:662241993046:web:4ea559346ca8a4e4e836f7"
+}
