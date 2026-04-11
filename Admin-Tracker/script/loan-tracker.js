@@ -9,7 +9,12 @@ import {
 	updateTermViaAccountID,
 	createNewPayment,
 	getPaymentViaAccountID,
-	updatePaymentViaAccountID
+	updatePaymentViaAccountID,
+	//Getting Statuses
+	getAccountsType,
+	getAccountsStatusType,
+	getPaymentStatusType,
+	getTermStatusType
 	} from './FirebaseAPICall.js';
 	
 import config from './config.json' with { type: 'json' };
@@ -37,7 +42,7 @@ import config from './config.json' with { type: 'json' };
 		// Loading Partial Page
 		$('#logo').load('Shared/logo.html');
 		//$('#navbar').load('Shared/navbar.html');
-		$('#floatingbutton').load('Shared/floatingbutton.html');
+		//$('#floatingbutton').load('Shared/floatingbutton.html');
 		
 		
 		var now = new Date();
@@ -57,7 +62,7 @@ import config from './config.json' with { type: 'json' };
 			object["account_id"] = params.id;
 			object["created_by"] = "00000000"; // to be added
 			var txt = JSON.stringify(object);
-			alert(txt);
+			//alert(txt);
 			createNewTerm(txt).then((msg) => {
 				location.reload();
 			}).catch((error) => {
@@ -73,7 +78,7 @@ import config from './config.json' with { type: 'json' };
 			object["account_id"] = params.id;
 			object["created_by"] = "00000000"; // to be added
 			var txt = JSON.stringify(object);
-			alert(txt);
+			//alert(txt);
 			createNewPayment(txt).then((msg) => {
 				location.reload();
 			}).catch((error) => {
@@ -129,22 +134,30 @@ import config from './config.json' with { type: 'json' };
 			}
 		});
 		
-		document.querySelectorAll('a.toggle-vis').forEach((el) => {
-			el.addEventListener('click', function (e) {
-				e.preventDefault();
-				const table = document.getElementById('bootstrap-data-table-export');
-				let columnIdx = e.target.getAttribute('data-column');
-				let column = table.column(columnIdx);
-		 
-				// Toggle the visibility
-				column.visible(!column.visible());
-			});
+		$('#EditAccountDetailsForm').submit(function (event) {
+			event.preventDefault();
+			var object = {};
+			var formData = new FormData(document.getElementById('EditAccountDetailsForm'));
+			
+			formData.forEach((value, key) => object[key] = value);
+						
+			var txt = JSON.stringify(object);
+			//alert(txt);
+			if (confirm("Are you sure you want to edit this account" + params.id + "?"))
+			{
+				updateAccountViaAccountID(params.id, txt).then((message) => {
+					//console.log(message);
+					location.reload();
+				}).catch((error) => {
+					console.log(error);
+				});
+			}
 		});
 		
     });
 	
 	function loadTermData(items) {
-		//console.log(items);
+		const termStatusType = JSON.parse(sessionStorage.getItem('TermStatusType'));
 		
 		// Generate new items HTML
 		var html = '';
@@ -167,7 +180,7 @@ import config from './config.json' with { type: 'json' };
 					</td>
 					<td>${new Date(item.due_date).toLocaleString()}</td>
 					<td>&#8369;${item.amortization}</td>
-					<td>${item.status}</td>
+					<td>${termStatusType[item.status]}</td>
 					<td>${item.remarks}</td>
 				</tr>
 			`;
@@ -177,7 +190,7 @@ import config from './config.json' with { type: 'json' };
 	}
 	
 	function loadPaymentData(items) {
-		//console.log(items);
+		const paymentStatusType = JSON.parse(sessionStorage.getItem('PaymentStatusType'));
 		
 		// Generate new items HTML
 		var html = '';
@@ -191,15 +204,16 @@ import config from './config.json' with { type: 'json' };
 						<a class="nav-link dropdown-toggle"
 						href="#"
 						data-bs-toggle="dropdown"
-						aria-expanded="false">&#8369;${item.amount}</a>
+						aria-expanded="false">${item.name}</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item btn-edit" onclick="viewPaymentDetails('${i}');"><i <i class="fa fa-eye"></i> Details</a></li>
+							<li><a class="dropdown-item btn-edit" onclick="viewPaymentDetails('${i}');"><i class="fa fa-eye"></i> Details</a></li>
 							<li><a class="dropdown-item btn-edit" onclick="editPaymentDetails('${i}');"><i class="fa fa-pencil"></i> Edit</a></li>
 							<li><a class="dropdown-item btn-delete" onclick="deletePaymentDetails('${i}');"><i class="fa fa-trash"></i> Delete</a></li>
 						</ul>
 					</td>
+					<td>&#8369;${item.amount}</td>
 					<td>${new Date(item.payment_date).toLocaleString()}</td>
-					<td>${item.status}</td>
+					<td>${paymentStatusType[item.status]}</td>
 					<td>${item.remarks}</td>
 				</tr>
 			`;
@@ -209,14 +223,17 @@ import config from './config.json' with { type: 'json' };
 	}
 	
 	function loadLoanDetails(details) {
+		const accountsType = JSON.parse(sessionStorage.getItem('AccountsType'));
+		const accountsStatusType = JSON.parse(sessionStorage.getItem('AccountsStatusType'));
 		// Generate new items HTML
 		var html = '';
 		html += `
 			<br />
 			<div class="detail-container">
 			  <div>
-				<div class="detail-label">Loan Status:</div>
-				<div class="detail-label">Loan Name:</div>
+				<div class="detail-label">Account Type:</div>
+				<div class="detail-label">Account Name:</div>
+				<div class="detail-label">Status:</div>
 				<div class="detail-label">Reference Number:</div>
 				<div class="detail-label">Amount:</div>
 				<div class="detail-label">Term:</div>
@@ -225,8 +242,9 @@ import config from './config.json' with { type: 'json' };
 				<div class="detail-label">Total Amount Paid:</div>
 			  </div>
 			  <div>
-				<div class="detail-value">${details.loan_status}</div>
+				<div class="detail-value">${accountsType[details.type]}</div>
 				<div class="detail-value">${details.name}</div>
+				<div class="detail-value">${accountsStatusType[details.account_status]}</div>
 				<div class="detail-value">${details.reference_number}</div>
 				<div class="detail-value">Php ${details.amount}</div>
 				<div class="detail-value">${details.term} Month</div>
@@ -290,6 +308,34 @@ import config from './config.json' with { type: 'json' };
 	
 	function initPage()
 	{
+		//Retriving Types and Statuses Types
+		getAccountsType().then((obj) => {
+			sessionStorage.setItem('AccountsType', JSON.stringify(obj));
+			populateSelectbyElementId('editaccounttypeId', obj);
+		}).catch((error) => {
+			console.log(error);
+		});
+		getTermStatusType().then((obj) => {
+			sessionStorage.setItem('TermStatusType', JSON.stringify(obj));
+			populateSelectbyElementId('termstatusid', obj);
+			populateSelectbyElementId('edittermstatusid', obj);
+		}).catch((error) => {
+			console.log(error);
+		});
+		getPaymentStatusType().then((obj) => {
+			sessionStorage.setItem('PaymentStatusType', JSON.stringify(obj));
+			populateSelectbyElementId('paymentstatusid', obj);
+			populateSelectbyElementId('editpaymentstatusid', obj);
+		}).catch((error) => {
+			console.log(error);
+		});
+		getAccountsStatusType().then((obj) => {
+			sessionStorage.setItem('AccountsStatusType', JSON.stringify(obj));
+			populateSelectbyElementId('editaccountaccount_statusId', obj);
+		}).catch((error) => {
+			console.log(error);
+		});
+		
 		//Load Account details
 		getAccountViaId(params.id).then((data) => {
 			console.log('Loading account details .......');
@@ -350,6 +396,18 @@ import config from './config.json' with { type: 'json' };
 		
 		console.log("editTermDetails ID:" + term_id);
 	}
+	
+	function editAccountDetailsFunc()
+	{ 
+		populateEditAccountDetailsForm();
+		
+		const modal = document.getElementById("EditAccountDetails");
+		// Create a new instance and show it
+		const myModal = new bootstrap.Modal(modal);
+		myModal.show();
+		
+		console.log("editAccountDetailsFunc......");
+	}
 		
 	function viewPaymentDetails(id)
 	{ 
@@ -360,21 +418,23 @@ import config from './config.json' with { type: 'json' };
 		const myModal = new bootstrap.Modal(modal);
 		myModal.show();
 		
-		console.log("EditAccountDetails ID:" + id);
+		console.log("viewPaymentDetails ID:" + id);
 	}
 	
 	// Add this line to expose it globally
 	window.deleteTermDetails = deleteTermDetails;
 	window.editTermDetails = editTermDetails;
+	window.editAccountDetailsFunc = editAccountDetailsFunc;
 	window.viewPaymentDetails = viewPaymentDetails;
 	
 	export function populateEditPaymentForm(payment_id)
 	{
-		//var data = window.paymentObject[payment_id];
 		const data = JSON.parse(sessionStorage.getItem('Payments'));
 		
+		document.getElementById('editpaymentnameId').value = data[payment_id].name;
 		document.getElementById('editpaymentamountid').value = data[payment_id].amount;
 		document.getElementById('editpaymentstatusid').value = data[payment_id].status;
+		document.getElementById('editimageurlId').value = data[payment_id].imageurl;
 		document.getElementById('editpaymentremarks').value = data[payment_id].remarks;
 		document.getElementById('editpaymentdateid').value = new Date(data[payment_id].payment_date).toISOString().slice(0, 16);
 		document.getElementById('payment_id').value = payment_id;
@@ -382,7 +442,6 @@ import config from './config.json' with { type: 'json' };
 	
 	export function populateEditTermForm(term_id)
 	{
-		//var data = window.paymentObject[payment_id];
 		const data = JSON.parse(sessionStorage.getItem('Terms'));
 		
 		var duedate = new Date(data[term_id].due_date);
@@ -393,6 +452,22 @@ import config from './config.json' with { type: 'json' };
 		document.getElementById('edittermremarksid').value = data[term_id].remarks;
 		document.getElementById('editdue_dateid').value = duedate.toISOString().slice(0, 16);
 		document.getElementById('term_id').value = term_id;
+		
+	}
+	
+	export function populateEditAccountDetailsForm()
+	{
+		const data = JSON.parse(sessionStorage.getItem('Account'));
+				
+		document.getElementById('editaccountnameId').value = data.name;
+		document.getElementById('editaccounttypeId').value = data.type;
+		document.getElementById('editaccountaccount_statusId').value = data.account_status;
+		document.getElementById('editaccountreference_numberId').value = data.reference_number;
+		document.getElementById('editaccountamountId').value = data.amount;
+		document.getElementById('editaccounttotal_paymentId').value = data.total_payment;
+		document.getElementById('editaccounttermId').value = data.term;
+		document.getElementById('editaccountmontly_paymentId').value = data.montly_payment;
+		document.getElementById('editaccountremarksId').value = data.remarks;
 		
 	}
 	
@@ -408,10 +483,11 @@ import config from './config.json' with { type: 'json' };
 		  // https://drive.google.com/thumbnail?id=16sYGi6nPJhAfIFl14FNRv2JMTT25uDRp
 		  // https://drive.google.com/file/d/16sYGi6nPJhAfIFl14FNRv2JMTT25uDRp/view?usp=drive_link
 		  var baseUrl = 'https://drive.google.com/thumbnail?id=';
+		  
 		  let indexStart = imgurl.indexOf("/d/");
 		  let indexEnd = imgurl.indexOf("/view?");
 		  imgurl = imgurl.substring(indexStart + 3, indexEnd);
-		  imgurl = baseUrl + imgurl;
+		  imgurl = baseUrl + imgurl + '&sz=w1000';
 		}
 		
 		// Generate new items HTML
@@ -444,3 +520,10 @@ import config from './config.json' with { type: 'json' };
 		document.getElementById('ViewDetailsBody').innerHTML = html;
 	}
 	
+	// Update Select List Values
+	function populateSelectbyElementId(ElemId, obj) {
+	  var ele = document.getElementById(ElemId);
+	  obj.forEach(function(id, value) {
+		ele.innerHTML += '<option value="' + value + '">' + id + '</option>';
+	  });
+	}

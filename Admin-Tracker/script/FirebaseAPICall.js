@@ -352,3 +352,113 @@
 		});
 	}
 	
+	// Getting Statuses and Types
+	//Get the Account Type
+	export function getAccountsType(){
+		// Create a request variable and assign a new XMLHttpRequest object to it.
+		var request = new XMLHttpRequest()
+		const url = config.databaseURL + '/accounts_type.json?auth=' + config.authorization;//
+
+		return new Promise((resolve, reject) => {
+			// Open a new connection, using the GET request on the URL endpoint
+			request.open('GET', url, true)
+
+			request.onload = function() {
+			 // Begin accessing JSON data here
+			  var data = JSON.parse(this.response)
+
+			  if (request.status >= 200 && request.status < 400) {
+				console.log("getAccountsType data : ");
+				console.log(data);
+				resolve(data);
+			  } else {
+					reject("Error:" + request.statusText);
+			  }
+			}
+
+			// Send request
+			request.send()
+		});
+	}
+	//Get the Account Type
+	export function getAccountsStatusType(){
+		// Create a request variable and assign a new XMLHttpRequest object to it.
+		var request = new XMLHttpRequest()
+		const url = config.databaseURL + '/accounts_status.json?auth=' + config.authorization;//
+
+		return new Promise((resolve, reject) => {
+			// Open a new connection, using the GET request on the URL endpoint
+			request.open('GET', url, true)
+
+			request.onload = function() {
+			 // Begin accessing JSON data here
+			  var data = JSON.parse(this.response)
+
+			  if (request.status >= 200 && request.status < 400) {
+				console.log("getAccountsType data : ");
+				console.log(data);
+				resolve(data);
+			  } else {
+					reject("Error:" + request.statusText);
+			  }
+			}
+
+			// Send request
+			request.send()
+		});
+	}
+	//Get the Payment Status Type
+	export function getPaymentStatusType(){
+		// Create a request variable and assign a new XMLHttpRequest object to it.
+		var request = new XMLHttpRequest()
+		const url = config.databaseURL + '/payment_status.json?auth=' + config.authorization;//
+
+		return new Promise((resolve, reject) => {
+			// Open a new connection, using the GET request on the URL endpoint
+			request.open('GET', url, true)
+
+			request.onload = function() {
+			 // Begin accessing JSON data here
+			  var data = JSON.parse(this.response)
+
+			  if (request.status >= 200 && request.status < 400) {
+				console.log("getAccountsType data : ");
+				console.log(data);
+				resolve(data);
+			  } else {
+					reject("Error:" + request.statusText);
+			  }
+			}
+
+			// Send request
+			request.send()
+		});
+	}
+	//Get the Term Status Type
+	export function getTermStatusType(){
+		// Create a request variable and assign a new XMLHttpRequest object to it.
+		var request = new XMLHttpRequest()
+		const url = config.databaseURL + '/term_status.json?auth=' + config.authorization;//
+
+		return new Promise((resolve, reject) => {
+			// Open a new connection, using the GET request on the URL endpoint
+			request.open('GET', url, true)
+
+			request.onload = function() {
+			 // Begin accessing JSON data here
+			  var data = JSON.parse(this.response)
+
+			  if (request.status >= 200 && request.status < 400) {
+				console.log("getAccountsType data : ");
+				console.log(data);
+				resolve(data);
+			  } else {
+					reject("Error:" + request.statusText);
+			  }
+			}
+
+			// Send request
+			request.send()
+		});
+	}
+	

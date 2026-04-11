@@ -1,5 +1,11 @@
 
-import { createNewAccount, getAllAccounts, getAccountViaId} from './FirebaseAPICall.js';
+import { createNewAccount,
+	getAllAccounts,
+	getAccountViaId,
+	//Getting
+	getAccountsType,
+	getAccountsStatusType
+	} from './FirebaseAPICall.js';
 
 import firebaseConfig  from './firebaseConfig.json' with { type: 'json' };
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js';
@@ -27,8 +33,6 @@ import { getFirestore } from 'https://www.gstatic.com/firebasejs/12.11.0/firebas
 		"authorization" : "vAU2WgoNg1lMZDcIYMfzMjIWlZ723pYpWxVvj9Hb"
 	}
 */
-	var Loans;
-	
     $(document).ready(function ($) {
 		/*
 		const params = new Proxy(new URLSearchParams(window.location.search), {
@@ -140,7 +144,7 @@ import { getFirestore } from 'https://www.gstatic.com/firebasejs/12.11.0/firebas
 		// Loading Partial Page
 		$('#logo').load('Shared/logo.html');
 		//$('#navbar').load('Shared/navbar.html');
-		$('#floatingbutton').load('Shared/floatingbutton.html');
+		//$('#floatingbutton').load('Shared/floatingbutton.html');
 		
 		var now = new Date();
 		now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
@@ -178,16 +182,23 @@ import { getFirestore } from 'https://www.gstatic.com/firebasejs/12.11.0/firebas
 				},(error) => {
 					console.log(error);
 				});
+				
+		getAccountsType().then((obj) => {
+			populateSelectbyElementId('accounttypeId', obj);
+		}).catch((error) => { console.log(error); });
+		
+		getAccountsStatusType().then((obj) => {
+			sessionStorage.setItem('AccountsStatusType', JSON.stringify(obj));
+		}).catch((error) => { console.log(error); });
 		
     });
 		
 	function loadTableData(items) {
-		console.log(items);
-		var arrayObject;
+		
+		const accountsStatusType = JSON.parse(sessionStorage.getItem('AccountsStatusType'));
 		
 		// Generate new items HTML
 		var html = '';
-		//const table = document.getElementById("tableBody");
 		
 		for(var i in items)
 		{
@@ -197,7 +208,7 @@ import { getFirestore } from 'https://www.gstatic.com/firebasejs/12.11.0/firebas
 					<td>${item.name}</td>
 					<td>${item.reference_number}</td>
 					<td>${item.amount}</td>
-					<td>${item.loan_status}</td>
+					<td>${accountsStatusType[item.account_status]}</td>
 				</tr>
 			`;
 		}
@@ -226,3 +237,12 @@ import { getFirestore } from 'https://www.gstatic.com/firebasejs/12.11.0/firebas
         });
 	}
 })()
+
+//
+	function populateSelectbyElementId(ElemId, obj) {
+	  var ele = document.getElementById(ElemId);
+	  obj.forEach(function(id, value) {
+		ele.innerHTML += '<option value="' + value + '">' + id + '</option>';
+	  })
+
+	}
